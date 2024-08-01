@@ -1,6 +1,11 @@
 /** @format */
 
 export default function WatchedMovie({ movie, onDeleteWatched }) {
+  // Helper function to safely format ratings
+  const formatRating = (rating) => {
+    return typeof rating === "number" ? rating.toFixed(2) : "N/A";
+  };
+
   return (
     <li>
       <img src={movie.poster} alt={`${movie.title} poster`} />
@@ -8,15 +13,15 @@ export default function WatchedMovie({ movie, onDeleteWatched }) {
       <div>
         <p>
           <span>⭐️</span>
-          <span>{movie.imdbRating.toFixed(2)}</span>
+          <span>{formatRating(movie.imdbRating)}</span>
         </p>
         <p>
           <span>🌟</span>
-          <span>{movie.userRating.toFixed(2)}</span>
+          <span>{formatRating(movie.userRating)}</span>
         </p>
         <p>
           <span>⏳</span>
-          <span>{movie.runtime} min</span>
+          <span>{movie.runtime ? `${movie.runtime} min` : "N/A"}</span>
         </p>
         <button
           className="btn-delete"

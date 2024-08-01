@@ -52,14 +52,44 @@ body {
 }
 
 .box {
-  width: 42rem;
+  width: 100%;
   max-width: 42rem;
   background-color: var(--color-background-500);
   border-radius: 0.9rem;
-  overflow: scroll;
+  overflow: hidden;
   position: relative;
 }
 
+.btn-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-background-100);
+  color: var(--color-text);
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.box-content {
+  max-height: 60vh;
+  overflow-y: auto;
+  transition: max-height 0.3s ease-out;
+}
+
+.box-content:not(.open) {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .box-content {
+    max-height: none;
+    overflow-y: hidden;
+  }
+}
 .loader {
   text-align: center;
   text-transform: uppercase;
@@ -117,22 +147,6 @@ body {
 .num-results {
   justify-self: end;
   font-size: 1.8rem;
-}
-
-.btn-toggle {
-  position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
-  height: 2.4rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: none;
-  background-color: var(--color-background-900);
-  color: var(--color-text);
-  font-size: 1.4rem;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 999;
 }
 
 .list {

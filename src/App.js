@@ -7,11 +7,71 @@ import { useMovies } from "./useMovies";
 import { useLocalStorageState } from "./useLocalStorageState";
 import { useKey } from "./useKey";
 
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 const KEY = "672d6a08";
 
+// export default function App() {
+//   const [query, setQuery] = useState("");
+//   const [selectedId, setSelectedId] = useState(null);
+//   const { movies, isLoading, error } = useMovies(query);
+//   const [watched, setWatched] = useLocalStorageState([], "watched");
+
+//   function handleSelectMovie(id) {
+//     setSelectedId((selectedId) => (selectedId === id ? null : id));
+//   }
+
+//   function handleCloseMovie() {
+//     setSelectedId(null);
+//   }
+
+//   function handleAddWatchList(movie) {
+//     setWatched((watched) => [...watched, movie]);
+//   }
+//   function handleDeleteWatched(id) {
+//     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+//   }
+
+//   return (
+//     <>
+//       <Navbar>
+//         <Search query={query} setQuery={setQuery} />
+//         <NumResult movies={movies} />
+//       </Navbar>
+//       <Main>
+//         <Box>
+//           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
+//           {isLoading && <Loader />}
+//           {!isLoading && !error && (
+//             <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
+//           )}
+//           {error && <ErrorMessage message={error} />}
+//         </Box>
+//         <Box>
+//           {selectedId ? (
+//             <MovieDetails
+//               selectedId={selectedId}
+//               onCloseMovie={handleCloseMovie}
+//               onAddWatched={handleAddWatchList}
+//               watched={watched}
+//             />
+//           ) : (
+//             <>
+//               <WatchedSummary watched={watched} />
+//               <WatchMoviesList
+//                 watched={watched}
+//                 onDeleteWatched={handleDeleteWatched}
+//               />
+//             </>
+//           )}
+//         </Box>
+//       </Main>
+//     </>
+//   );
+// }
 export default function App() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
@@ -29,6 +89,7 @@ export default function App() {
   function handleAddWatchList(movie) {
     setWatched((watched) => [...watched, movie]);
   }
+
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
@@ -40,15 +101,14 @@ export default function App() {
         <NumResult movies={movies} />
       </Navbar>
       <Main>
-        <Box>
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
+        <Box title="Movies">
           {isLoading && <Loader />}
           {!isLoading && !error && (
             <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
           )}
           {error && <ErrorMessage message={error} />}
         </Box>
-        <Box>
+        <Box title="Watched">
           {selectedId ? (
             <MovieDetails
               selectedId={selectedId}
@@ -70,7 +130,6 @@ export default function App() {
     </>
   );
 }
-
 function Loader() {
   return <p className="loader">Loading...</p>;
 }
@@ -133,15 +192,16 @@ function Main({ children }) {
   return <main className="main">{children}</main>;
 }
 
-function Box({ children }) {
+function Box({ children, title }) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="box">
       <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
-        {isOpen ? "–" : "+"}
+        {title}
+        {isOpen ? <FaChevronUp /> : <FaChevronDown />}
       </button>
-      {isOpen && children}
+      <div className={`box-content ${isOpen ? "open" : ""}`}>{children}</div>
     </div>
   );
 }
